@@ -1,13 +1,14 @@
 import openai
 from typing import List
 import os
+import streamlit as st
 
 MODEL = "gpt-4"
 
 class GPT4Client:
     def __init__(self):
         ## get api key from os environ ['OPENAI_API_KEY']
-        openai.api_key = os.environ['OPENAI_API_KEY']
+        openai.api_key = st.secrets['OPENAI_API_KEY']
 
 
     def generate_patient_history(self, conversation: str) -> str:
