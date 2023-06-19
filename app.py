@@ -1,6 +1,5 @@
 import streamlit as st
 from gpt4_client import GPT4Client
-from diagnosis import Diagnosis, get_diagnostic_and_treatment_plans
 
 def main():
     st.title("Vet Diagnosis Assistant")
