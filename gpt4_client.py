@@ -31,7 +31,7 @@ class GPT4Client:
 
     def generate_patient_history(self, conversation: str) -> str:
         
-        system_message = "Generate a medical history for this patient in SOAP Format based on the following conversation between a vet and a client."
+        system_message = "Generate a medical history for this patient in SOAP Format based on the following conversation between a vet and a client. It should be formatted so that each section is separated by a newline, and the title of each section is followed by a colon. Don't include any other information."
         user_message = conversation
 
         return self.call_openai_chat(system_message, user_message)

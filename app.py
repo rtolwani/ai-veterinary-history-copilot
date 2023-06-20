@@ -2,11 +2,8 @@ import streamlit as st
 from gpt4_client import GPT4Client
 
 def main():
-
     def update_diagnosis():
         with col3:
-            print("made it to update diagnosis")
-            print(st.session_state['patient_history'])                
             diagnosis_name = st.selectbox("Select a differential:", st.session_state['diagnoses'])
             st.session_state['diagnosis_name'] = diagnosis_name
                 
@@ -21,10 +18,10 @@ def main():
                 st.markdown(f"**Treatment Plan:**\n\n{treatment}")  # Use markdown for better formatting
 
     st.title("GPTVet: The AI-Powered Vet Assistant")
-    col1, col2, col3 = st.columns(3)  # Create two columns
+    col1, col2, col3 = st.columns([3, 1, 3]) # Create two columns
 
     with col1:
-        conversation = st.text_area("Enter the conversation between vet and client:")
+        conversation = st.text_area("Enter the conversation between vet and client:", height=250)  # Increase textarea height
         if st.button("Generate Patient Summary and Diagnosis"):
             gpt4_client = GPT4Client()
             diagnoses = gpt4_client.generate_diagnoses(conversation)
@@ -36,11 +33,20 @@ def main():
             st.session_state['gpt4_client'] = gpt4_client
 
         if 'patient_history' in st.session_state:
-            st.markdown(f"**Patient History:**\n\n{st.session_state['patient_history']}")  # Use markdown for better formatting
-            ## rerun the app with the new patient history
+            # Split patient_history into sections
+            sections = st.session_state['patient_history'].split('\n\n')
+
+            for section in sections:
+                # Split section into title and content
+                print(section)
+                title, content = section.split(':', 1)
+                
+                # Make each section collapsible
+                if st.expander(title.strip()).markdown(f"{content.strip()}"):
+                    pass
+                ## rerun the app with the new patient history
             update_diagnosis()
 
-    
 if __name__ == "__main__":
     st.set_page_config(layout="wide")
     main()
