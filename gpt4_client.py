@@ -8,7 +8,11 @@ MODEL = "gpt-4"
 class GPT4Client:
     def __init__(self):
         ## get api key from os environ ['OPENAI_API_KEY']
-        openai.api_key = st.secrets['OPENAI_API_KEY']
+        ## first check if we can get it from os environ (running locally)
+        if os.environ.get('OPENAI_API_KEY') is not None:
+            openai.api_key = os.environ.get('OPENAI_API_KEY')
+        else:
+            openai.api_key = st.secrets['OPENAI_API_KEY']
 
 
     def generate_patient_history(self, conversation: str) -> str:
