@@ -21,7 +21,7 @@ def main():
     col1, col2, col3 = st.columns([3, 1, 3]) # Create two columns
 
     with col1:
-        conversation = st.text_area("Enter the conversation between vet and client:", height=250)  # Increase textarea height
+        conversation = st.text_area("Enter patient history", height=250)  # Increase textarea height
         if st.button("Generate Patient SOAP"):
             gpt4_client = GPT4Client()
             diagnoses = gpt4_client.generate_diagnoses(conversation)
