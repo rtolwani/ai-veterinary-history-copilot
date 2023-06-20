@@ -16,7 +16,7 @@ class GPT4Client:
             openai.api_key = st.secrets['OPENAI_API_KEY']
 
 
-    def call_openai_chat(system_message: str, user_message: str) -> str:
+    def call_openai_chat(self, system_message: str, user_message: str) -> str:
 
         response = openai.ChatCompletion.create(
             model=MODEL,
