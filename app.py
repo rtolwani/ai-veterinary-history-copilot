@@ -4,7 +4,7 @@ from gpt4_client import GPT4Client
 def main():
     def update_diagnosis():
         with col3:
-            diagnosis_name = st.selectbox("Select a Differential from the List bBelow:", st.session_state['diagnoses'])
+            diagnosis_name = st.selectbox("Select a Differential from the List Below:", st.session_state['diagnoses'])
             st.session_state['diagnosis_name'] = diagnosis_name
                 
             gpt4_client = st.session_state['gpt4_client']
@@ -21,7 +21,7 @@ def main():
     col1, col2, col3 = st.columns([3, 1, 3]) # Create two columns
 
     with col1:
-        conversation = st.text_area("Enter Patient History", height=250)  # Increase textarea height
+        conversation = st.text_area("Enter Patient History", height=450)  # Increase textarea height
         if st.button("Generate Patient SOAP"):
             gpt4_client = GPT4Client()
             diagnoses = gpt4_client.generate_diagnoses(conversation)
