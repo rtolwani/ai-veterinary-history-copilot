@@ -4,7 +4,7 @@ from gpt4_client import GPT4Client
 def main():
     def update_diagnosis():
         with col3:
-            diagnosis_name = st.selectbox("Select a differential:", st.session_state['diagnoses'])
+            diagnosis_name = st.selectbox("Select a differential from the list below:", st.session_state['diagnoses'])
             st.session_state['diagnosis_name'] = diagnosis_name
                 
             gpt4_client = st.session_state['gpt4_client']
