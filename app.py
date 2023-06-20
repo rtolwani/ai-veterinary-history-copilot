@@ -22,7 +22,7 @@ def main():
 
     with col1:
         conversation = st.text_area("Enter the conversation between vet and client:", height=250)  # Increase textarea height
-        if st.button("Generate Patient Summary and Diagnosis"):
+        if st.button("Generate Patient SOAP"):
             gpt4_client = GPT4Client()
             diagnoses = gpt4_client.generate_diagnoses(conversation)
             patient_history = gpt4_client.generate_patient_history(conversation)
