@@ -48,8 +48,7 @@ def main():
                 print(section)
                 title, content = section.split(':', 1)
                 
-                # Make each section collapsible
-                if st.expander(title.strip()).markdown(f"{content.strip()}"):
+            
                     pass
                 ## rerun the app with the new patient history
             update_diagnosis()
