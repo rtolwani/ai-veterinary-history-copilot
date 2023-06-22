@@ -29,7 +29,7 @@ class GPT4Client:
 
         return response['choices'][0]['message']['content']
 
-    def generate_patient_history(self, conversation: str) -> str:
+    def generate_medical_summary (self, conversation: str) -> str:
         
         system_message = "Summarize this pet’s patient history into a medical file so it can be added to pets medical record. Be brief. Start with “Medical Record Summary”."
         user_message = conversation
