@@ -31,7 +31,7 @@ def main():
         if st.button("Medical Record Summary"):
             gpt4_client = GPT4Client()
             diagnoses = gpt4_client.generate_diagnoses(conversation)
-            patient_history = gpt4_client.generate_patient_history(conversation)
+            patient_history = gpt4_client.generate_medical_summary(conversation)
 
             st.session_state['diagnoses'] = diagnoses
             st.session_state['patient_history'] = patient_history
