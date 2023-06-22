@@ -20,7 +20,7 @@ def main():
             if st.button("Step 5: Get Patient Medical Summary with your Selected Differential"):
                 st.markdown(f"**Diagnosis:**\n\n{st.session_state['diagnosis_name']}")  # Use markdown for better formatting
 
-                treatment = gpt4_client.generate_treatment(diagnosis_name, conversation)
+                treatment = gpt4_client.generate_record(diagnosis_name, conversation)
                 st.markdown(f"**Treatment Plan:**\n\n{treatment}")  # Use markdown for better formatting
 
     st.title("AI-Powered Veterinarian Assistant")
