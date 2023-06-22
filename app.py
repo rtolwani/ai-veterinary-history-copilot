@@ -4,12 +4,18 @@ from gpt4_client import GPT4Client
 def main():
     def update_diagnosis():
         with col3:
-            diagnosis_name = st.selectbox("Select a Differential for Treatment Plan. Change Selection for Another Plan:", st.session_state['diagnoses'])
+            diagnosis_name = st.selectbox("Select a Differential for Treatment Plan. Change Selection for Another Plan.", st.session_state['diagnoses'])
             st.session_state['diagnosis_name'] = diagnosis_name
                 
             gpt4_client = st.session_state['gpt4_client']
             diagnosis_name = st.session_state['diagnosis_name']
             conversation = st.session_state['conversation']
+
+            if st.button("Get Brief Treatment Plan"):
+                st.markdown(f"**Diagnosis:**\n\n{st.session_state['diagnosis_name']}")  # Use markdown for better formatting
+
+                treatment = gpt4_client.generate_treatment(diagnosis_name, conversation)
+                st.markdown(f"**Treatment Plan:**\n\n{treatment}")  # Use markdown for better formatting
 
             if st.button("Get Expanded Treatment Plan"):
                 st.markdown(f"**Diagnosis:**\n\n{st.session_state['diagnosis_name']}")  # Use markdown for better formatting
