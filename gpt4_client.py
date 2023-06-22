@@ -31,7 +31,7 @@ class GPT4Client:
 
     def generate_medical_summary (self, conversation: str) -> str:
         
-        system_message = "Summarize this pet’s patient history into a medical file so it can be added to pets medical record. Be brief. Start with “Medical Record Summary”."
+        system_message = "Summarize this pet’s patient history into a medical file so it can be added to pets medical record. Start with “Medical Record Summary”."
         user_message = conversation
 
         return self.call_openai_chat(system_message, user_message)
