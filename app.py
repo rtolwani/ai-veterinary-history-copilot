@@ -28,6 +28,16 @@ def main():
 
     with col1:
         conversation = st.text_area("Enter Patient History. Modify to Update SOAP and Differentials.", height=100)  # Increase textarea height
+        if st.button("Medical Record Summary"):
+            gpt4_client = GPT4Client()
+            diagnoses = gpt4_client.generate_diagnoses(conversation)
+            patient_history = gpt4_client.generate_patient_history(conversation)
+
+            st.session_state['diagnoses'] = diagnoses
+            st.session_state['patient_history'] = patient_history
+            st.session_state['conversation'] = conversation
+            st.session_state['gpt4_client'] = gpt4_client
+
         if st.button("Generate Patient SOAP"):
             gpt4_client = GPT4Client()
             diagnoses = gpt4_client.generate_diagnoses(conversation)
