@@ -49,3 +49,10 @@ class GPT4Client:
         user_message = f"Diagnosis: {diagnosis};;; Conversation: {conversation}"
 
         return self.call_openai_chat(system_message, user_message)
+
+    def generate_record(self, diagnosis: str, conversation: str) -> str:
+        
+        system_message = "Generate a medical record that includes summary of pet's patient history, differentials, selected diagnosis and treatment plan."
+        user_message = f"Diagnosis: {diagnosis};;; Conversation: {conversation}"
+
+        return self.call_openai_chat(system_message, user_message)
