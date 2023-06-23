@@ -49,21 +49,14 @@ def main():
             gpt4_client = st.session_state['gpt4_client']
             conversation = st.session_state['conversation']
 
-            if st.button("Step 4: Get Treatment Plan"):
-
+            if st.button("Step 4: Get Patient Medical Summary with your Selected Differential"):
                 st.markdown("**Potential Diagnoses:**\n\n")  # Use markdown for better formatting
                 for i, diagnosis in enumerate(diagnosis_name):
                     st.markdown(f"{i+1}. {diagnosis}")
                 
-                treatment = gpt4_client.generate_treatment(diagnosis_name, conversation)
-                st.markdown(f"**Treatment Summary**\n\n{treatment}")  # Use markdown for better formatting
-
-            if st.button("Step 5: Get Patient Medical Summary with your Selected Differential"):
-                st.markdown("**Potential Diagnoses:**\n\n")  # Use markdown for better formatting
-                for i, diagnosis in enumerate(diagnosis_name):
-                    st.markdown(f"{i+1}. {diagnosis}")
+                with st.spinner('Generating Medical Summary... This will take 30 seconds.'):
+                    medical_summary = gpt4_client.generate_record(diagnosis_name, conversation)
                 
-                medical_summary = gpt4_client.generate_record(diagnosis_name, conversation)
                 st.markdown(f"**Medical Summary**\n\n{medical_summary}")  # Use markdown for better formatting
 
                 st.session_state['medical_summary'] = medical_summary
