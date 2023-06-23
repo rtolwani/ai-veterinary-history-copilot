@@ -23,7 +23,7 @@ def main():
                 treatment = gpt4_client.generate_record(diagnosis_name, conversation)
                 st.markdown(f"**Medical Summary**\n\n{treatment}")  # Use markdown for better formatting
 
-    st.title("AI-Powered Veterinarian Assistant")
+    st.title("AI Veterinarian CoPilot")
     col1, col2, col3 = st.columns([3, 1, 3]) # Create two columns
 
     with col1:
