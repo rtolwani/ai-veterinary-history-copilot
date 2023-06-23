@@ -43,13 +43,13 @@ def main():
     with col3:
         if 'diagnoses' in st.session_state:
             ## select multiple diagnoses
-            diagnosis_name = st.multiselect("Step 3: Select a Differential for Treatment Plan. Change Selection for Another Plan.", st.session_state['diagnoses'])
+            diagnosis_name = st.multiselect("Step 3: Select Differential(s) for Treatment Plan and Medical Record. Add or Delete to Modify Medical Record.", st.session_state['diagnoses'])
             st.session_state['chosen_diagnoses'] = diagnosis_name
                 
             gpt4_client = st.session_state['gpt4_client']
             conversation = st.session_state['conversation']
 
-            if st.button("Step 4: Get Patient Medical Summary with your Selected Differential"):
+            if st.button("Step 4: Get Patient Medical Summary with your Selected Differential(s)"):
                 st.markdown("**Potential Diagnoses:**\n\n")  # Use markdown for better formatting
                 for i, diagnosis in enumerate(diagnosis_name):
                     st.markdown(f"{i+1}. {diagnosis}")
