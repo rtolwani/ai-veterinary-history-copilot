@@ -38,21 +38,29 @@ class GPT4Client:
 
     def generate_diagnoses(self, conversation: str) -> List[str]:
         
-        system_message = "Generate a list of potential diagnoses based on the pet's patient history. Format it so that each diagnoses is separated by a newline, and don't include any other information."
+        system_message = "Generate a list of potential diagnoses based on the pet's patient history. Format it so that each diagnoses is separated by a newline, and don't include any other information. The list does not need any numbers or bullets."
         user_message = conversation
 
         return self.call_openai_chat(system_message, user_message).split("\n")
 
-    def generate_treatment(self, diagnosis: str, conversation: str) -> str:
+    def generate_treatment(self, diagnosis: list[str], conversation: str) -> str:
         
-        system_message = "Generate a treatment plan based on the diagnosis based on the pet's patient history."
-        user_message = f"Diagnosis: {diagnosis};;; Conversation: {conversation}"
+        system_message = "Generate a veterinary treatment plan based upon the following potential diagnoses and pet's history. Generate one plan per diagnosis. Just include the treatment plan."
+        user_message = ""
+        for diagnosis in diagnosis:
+            user_message += f"Diagnosis: {diagnosis};;;"
+
+        user_message += f"Pet History: {conversation}"
 
         return self.call_openai_chat(system_message, user_message)
 
-    def generate_record(self, diagnosis: str, conversation: str) -> str:
+    def generate_record(self, diagnosis: list[str], conversation: str) -> str:
         
-        system_message = "Generate a medical record that includes summary of pet's patient history, differentials, selected diagnosis and treatment plan."
-        user_message = f"Diagnosis: {diagnosis};;; Conversation: {conversation}"
+        system_message = "Generate a medical record that includes summary of pet's patient history, potential differentials, selected diagnosis and treatment plan."
+        user_message = ""
+        for diagnosis in diagnosis:
+            user_message += f"Diagnosis: {diagnosis};;;"
+
+        user_message += f"Pet History: {conversation}"
 
         return self.call_openai_chat(system_message, user_message)
