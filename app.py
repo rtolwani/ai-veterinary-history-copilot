@@ -4,7 +4,8 @@ from gpt4_client import GPT4Client
 def main():
     def update_diagnosis():
         with col3:
-            diagnosis_name = st.selectbox("Step 3: Select a Differential for Treatment Plan. Change Selection for Another Plan.", st.session_state['diagnoses'])
+            ## select multiple diagnoses
+            diagnosis_name = st.multiselect("Step 3: Select a Differential for Treatment Plan. Change Selection for Another Plan.", st.session_state['diagnoses'])
             st.session_state['diagnosis_name'] = diagnosis_name
                 
             gpt4_client = st.session_state['gpt4_client']
@@ -30,9 +31,13 @@ def main():
         conversation = st.text_area("Step 1: Enter Patient History. Modify to Update Patient History, SOAP and Differentials.", height=100)  # Increase textarea height
 
         if st.button("Step 2: Generate Patient SOAP"):
-            gpt4_client = GPT4Client()
-            diagnoses = gpt4_client.generate_diagnoses(conversation)
-            patient_history = gpt4_client.generate_patient_history(conversation)
+            ## add a loading spinner
+            with st.spinner('Generating Patient SOAP... This will take about 30 seconds.'):
+                gpt4_client = GPT4Client()
+                patient_history = gpt4_client.generate_patient_history(conversation)
+
+            with st.spinner('Generating Patient SOAP... This will take about 30 seconds.'):
+                diagnoses = gpt4_client.generate_diagnoses(conversation)
 
             st.session_state['diagnoses'] = diagnoses
             st.session_state['patient_history'] = patient_history
@@ -45,7 +50,6 @@ def main():
 
             for section in sections:
                 # Split section into title and content
-                print(section)
                 title, content = section.split(':', 1)
                    
                 # Make each section collapsible
