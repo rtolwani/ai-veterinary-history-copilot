@@ -57,7 +57,7 @@ def main():
                 with st.spinner('Generating Medical Summary... This will take 30 seconds.'):
                     medical_summary = gpt4_client.generate_record(diagnosis_name, conversation)
                 
-                st.text_area(f"**Medical Summary**\n\n{medical_summary}")  # Use markdown for better formatting
+                st.markdown(f"**Medical Summary**\n\n{medical_summary}")  # Use markdown for better formatting
 
                 st.session_state['medical_summary'] = medical_summary
 
