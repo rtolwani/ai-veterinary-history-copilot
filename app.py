@@ -43,7 +43,11 @@ def main():
     with col3:
         if 'diagnoses' in st.session_state:
             ## select multiple diagnoses
-            diagnosis_name = st.multiselect("Step 3: Select Differential(s) for Treatment Plan and Medical Record. Add or Delete to Modify Medical Record.", st.session_state['diagnoses'])
+            diagnosis_name = st.multiselect(
+                "Step 3: Select Differential(s) for Treatment Plan and Medical Record. Add or Delete to Modify Medical Record.", 
+                st.session_state['diagnoses'],
+                "Select differential(s)"
+            )
             st.session_state['chosen_diagnoses'] = diagnosis_name
                 
             gpt4_client = st.session_state['gpt4_client']
