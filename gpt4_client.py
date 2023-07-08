@@ -2,8 +2,6 @@ import openai
 from typing import List
 import os
 import streamlit as st
-from langchain.chains import ChatVectorDBChain
-from langchain.llms import OpenAI
 
 MODEL = "gpt-4"
 
