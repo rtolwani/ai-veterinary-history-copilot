@@ -1,0 +1,11 @@
+
+./ipynb_checkpoints
+
+## pycache
+*.pkl
+*.bin
+*.pyc
+*.ipynb
+
+## pdf
+*.pdf

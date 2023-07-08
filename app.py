@@ -1,7 +1,10 @@
 import streamlit as st
 from gpt4_client import GPT4Client
 from email_client import send_email
-
+from langchain.document_loaders import PyPDFLoader
+import tempfile
+import os
+import json
 
 def main():
     st.title("AI Veterinarian CoPilot")
@@ -10,40 +13,61 @@ def main():
     with col1:
         conversation = st.text_area("Step 1: Enter Patient History. Modify to Update Patient History, SOAP and Differentials.", height=100)  # Increase textarea height
 
-        if st.button("Step 2: Generate Patient SOAP"):
+        ## add a file upload for lab results
+        uploaded_file = st.file_uploader("Upload Lab Results from IDEXX", type=['pdf'])
+        if uploaded_file is not None:
+            st.write("File uploaded successfully!")
+            ## save the file to a temp directory
+            with tempfile.NamedTemporaryFile(delete=False) as fp:
+                fp.write(uploaded_file.read())
+                st.session_state['file_path'] = fp.name
+
+            loader = PyPDFLoader(fp.name)
+            docs = loader.load()
+            pdf_string = "".join(docs[i].page_content for i in range(len(docs)))
+
+            st.session_state['pdf_string'] = pdf_string 
+            os.unlink(fp.name)
+
+        if st.button("Step 2: Generate Potential Differentials"):
             gpt4_client = GPT4Client()
 
-            ## add a loading spinner
-            with st.spinner('Generating Patient SOAP... This will take about 30 seconds.'):
-                patient_history = gpt4_client.generate_patient_history(conversation)
+            # ## add a loading spinner
+            with st.spinner('Generating Patient Differentials... This will take about 30 seconds.'):
 
-            # Store necessary states
-            st.session_state['conversation'] = conversation
-            st.session_state['gpt4_client'] = gpt4_client
-
-            # Immediately display patient history after it's generated
-            # Split patient_history into sections
-            sections = patient_history.split('\n\n')
-
-            for section in sections:
-                # Split section into title and content
-                title, content = section.split(':', 1)
-                   
-                # Make each section collapsible
-                if st.expander(title.strip()).markdown(f"{content.strip()}"):
-                    pass
-            
-            # Now generate diagnoses and display it on col3
-            with col3:
-                with st.spinner('SOAP Generated! Generating Differentials...'):
+                if 'pdf_string' in st.session_state:
+                    diagnoses = gpt4_client.generate_diagnoses_with_pdf(conversation, st.session_state['pdf_string'])
+                else:
                     diagnoses = gpt4_client.generate_diagnoses(conversation)
 
             st.session_state['diagnoses'] = diagnoses
+            ## diagnoses is a string in JSON-type format
+
+            # # Store necessary states
+            st.session_state['conversation'] = conversation
+            st.session_state['gpt4_client'] = gpt4_client
+
+            ## parse this json and display it in collapsible sections using st.expander
+            diagnoses = json.loads(diagnoses)
+
+            ## the diagnoses should be the title and the justification should be the content
+
+            print(diagnoses)
+            st.session_state['diagnoses'] = diagnoses
+
+            if 'diagnoses' in st.session_state:
+                st.write("Here are the potential differentials for your patient:")
+                for diag in st.session_state['diagnoses']:
+                    with st.expander(diag['diagnosis']):
+                        st.write(diag['justification'])
 
     with col3:
         if 'diagnoses' in st.session_state:
             ## select multiple diagnoses
-            diagnosis_name = st.multiselect("Step 3: Select Differential(s) for Treatment Plan and Medical Record. Add or Delete to Modify Medical Record.", st.session_state['diagnoses'])
+            ## get just the diagnoses from the JSON
+            diagnoses_no_justification = [diag['diagnosis'] for diag in st.session_state['diagnoses']]
+
+            diagnosis_name = st.multiselect("Step 3: Select Differential(s) for Treatment Plan and Medical Record. Add or Delete to Modify Medical Record.", diagnoses_no_justification)
             st.session_state['chosen_diagnoses'] = diagnosis_name
                 
             gpt4_client = st.session_state['gpt4_client']
@@ -55,8 +79,11 @@ def main():
                     st.markdown(f"{i+1}. {diagnosis}")
                 
                 with st.spinner('Generating Medical Summary... This will take 30 seconds.'):
-                    medical_summary = gpt4_client.generate_record(diagnosis_name, conversation)
-                
+                    if 'pdf_string' in st.session_state:
+                        medical_summary = gpt4_client.generate_record(diagnosis_name, conversation, st.session_state['pdf_string'])
+                    else:
+                        ## pass in none for the pdf string
+                        medical_summary = gpt4_client.generate_record(diagnosis_name, conversation, None)
                 st.markdown(f"**Medical Summary**\n\n{medical_summary}")  # Use markdown for better formatting
 
                 st.session_state['medical_summary'] = medical_summary
