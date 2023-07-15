@@ -74,7 +74,7 @@ def main():
             gpt4_client = st.session_state['gpt4_client']
             conversation = st.session_state['conversation']
 
-            if st.button("Step 4: Click to get Medical Chart with your Selected Differential(s)"):
+            if st.button("Step 4: Click to get Medical Chart"):
                 st.markdown("**Potential Diagnoses:**\n\n")  # Use markdown for better formatting
                 for i, diagnosis in enumerate(diagnosis_name):
                     st.markdown(f"{i+1}. {diagnosis}")
