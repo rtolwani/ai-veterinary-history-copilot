@@ -10,7 +10,7 @@ def send_email(email, subject, content):
         sendgrid_key = st.secrets['SENDGRID_API_KEY']
 
     sg = sendgrid.SendGridAPIClient(api_key=sendgrid_key)
-    from_email = Email("aivet@dvm.com")  # Replace with your SendGrid account email
+    from_email = Email("ravi@tolwani.com")  # Replace with your SendGrid account email
     to_email = To(email)
     content = Content("text/plain", content)
     mail = Mail(from_email, to_email, subject, content)
