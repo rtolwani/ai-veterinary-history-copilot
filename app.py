@@ -93,7 +93,7 @@ def main():
 
     with col3:
         if "medical_summary" in st.session_state:
-            email = st.text_input("Email address to send the report to:")
+            email = st.text_input("Email address to send the medical chart report to:")
             if st.button("Email Report"):
                 response = send_email(email, "Your AI Veterinarian Report", st.session_state['medical_summary'])
                 if response == 202:
