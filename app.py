@@ -68,7 +68,7 @@ def main():
             ## get just the diagnoses from the JSON
             diagnoses_no_justification = [diag['diagnosis'] for diag in st.session_state['diagnoses']]
 
-            diagnosis_name = st.multiselect("Step 5: Select One or More Differential(s) for Treatment Plan and Medical Record. Revise to Modify Medical Record.", diagnoses_no_justification)
+            diagnosis_name = st.multiselect("Step 4: Select One or More Differential(s). Revise to Modify Medical Record.", diagnoses_no_justification)
             st.session_state['chosen_diagnoses'] = diagnosis_name
                 
             gpt4_client = st.session_state['gpt4_client']
