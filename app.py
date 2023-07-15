@@ -11,8 +11,7 @@ def main():
     col1, col2, col3 = st.columns([3, 1, 3]) # Create two columns
 
     with col1:
-        conversation = st.text_area("Step 1: Enter Patient History. Modify to Update Patient History, SOAP and Differentials.", height=100)  # Increase textarea height
-
+        
         ## add a file upload for lab results
         uploaded_file = st.file_uploader("Upload Lab Results from IDEXX", type=['pdf'])
         if uploaded_file is not None:
@@ -28,6 +27,8 @@ def main():
 
             st.session_state['pdf_string'] = pdf_string 
             os.unlink(fp.name)
+
+        conversation = st.text_area("Step 1: Enter Patient History. Modify to Update Patient History, SOAP and Differentials.", height=100)  # Increase textarea height
 
         if st.button("Step 2: Generate Potential Differentials"):
             gpt4_client = GPT4Client()
