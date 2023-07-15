@@ -68,13 +68,13 @@ def main():
             ## get just the diagnoses from the JSON
             diagnoses_no_justification = [diag['diagnosis'] for diag in st.session_state['diagnoses']]
 
-            diagnosis_name = st.multiselect("Step 4: Select One or More Differential(s) for Treatment Plan and Medical Record. Revised to Modify Medical Record.", diagnoses_no_justification)
+            diagnosis_name = st.multiselect("Step 5: Select One or More Differential(s) for Treatment Plan and Medical Record. Revise to Modify Medical Record.", diagnoses_no_justification)
             st.session_state['chosen_diagnoses'] = diagnosis_name
                 
             gpt4_client = st.session_state['gpt4_client']
             conversation = st.session_state['conversation']
 
-            if st.button("Step 4: Step 5: Get Treatment Plan and Medical Summary with your Selected Differential(s)"):
+            if st.button("Step 5: Get Treatment Plan and Medical Summary with your Selected Differential(s)"):
                 st.markdown("**Potential Diagnoses:**\n\n")  # Use markdown for better formatting
                 for i, diagnosis in enumerate(diagnosis_name):
                     st.markdown(f"{i+1}. {diagnosis}")
