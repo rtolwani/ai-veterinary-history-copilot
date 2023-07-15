@@ -87,7 +87,16 @@ def main():
                         medical_summary = gpt4_client.generate_record(diagnosis_name, conversation, None)
                 st.markdown(f"**Medical Summary**\n\n{medical_summary}")  # Use markdown for better formatting
 
-                st.session_state['medical_summary'] = medical_summary
+                # Retrieve the current value of medical_summary
+                medical_summary = st.session_state.get('medical_summary', '')
+
+                # Display an input field to edit the medical_summary
+                edited_summary = st.text_area("Medical Summary", value=medical_summary)
+
+                # Update the medical_summary in session state if the value is modified
+                if edited_summary != medical_summary:
+                st.session_state['medical_summary'] = edited_summary
+
 
     with col3:
         if "medical_summary" in st.session_state:
