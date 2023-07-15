@@ -7,7 +7,7 @@ import os
 import json
 
 def main():
-    st.title("AI Veterinarian CoPilot Laboratory Assessment")
+    st.title("AI Veterinarian Laboratory CoPilot")
     col1, col2, col3 = st.columns([3, 1, 3]) # Create two columns
 
     with col1:
