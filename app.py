@@ -87,6 +87,8 @@ def main():
                         medical_summary = gpt4_client.generate_record(diagnosis_name, conversation, None)
                 st.markdown(f"**Medical Summary**\n\n{medical_summary}")  # Use markdown for better formatting
 
+                import streamlit as st
+                
                 # Retrieve the current value of medical_summary
                 medical_summary = st.session_state.get('medical_summary', '')
 
