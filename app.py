@@ -7,7 +7,7 @@ import os
 import json
 
 def main():
-    st.title("AI Veterinarian CoPilot")
+    st.title("AI Veterinarian CoPilot Laboratory Assessment")
     col1, col2, col3 = st.columns([3, 1, 3]) # Create two columns
 
     with col1:
@@ -28,7 +28,7 @@ def main():
             st.session_state['pdf_string'] = pdf_string 
             os.unlink(fp.name)
 
-        conversation = st.text_area("(Optional) Enter Patient Singlement and History. Modify to Update Differentials and Medical Plan.", height=100)  # Increase textarea height
+        conversation = st.text_area("(Optional) Enter Patient Signalment and History. Modify to Update Differentials and Medical Plan.", height=100)  # Increase textarea height
 
         if st.button("Step 2: Click to Generate Potential Differentials"):
             gpt4_client = GPT4Client()
@@ -74,7 +74,7 @@ def main():
             gpt4_client = st.session_state['gpt4_client']
             conversation = st.session_state['conversation']
 
-            if st.button("Step 4: Click to Medical Summary with your Selected Differential(s)"):
+            if st.button("Step 4: Click to get Medical Summary with your Selected Differential(s)"):
                 st.markdown("**Potential Diagnoses:**\n\n")  # Use markdown for better formatting
                 for i, diagnosis in enumerate(diagnosis_name):
                     st.markdown(f"{i+1}. {diagnosis}")
