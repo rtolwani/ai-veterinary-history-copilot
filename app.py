@@ -95,6 +95,7 @@ def main():
 
                 # Update the medical_summary in session state if the value is modified
                 if edited_summary != medical_summary:
+                
                 st.session_state['medical_summary'] = edited_summary
 
 
