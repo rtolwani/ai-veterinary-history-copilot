@@ -13,7 +13,7 @@ def main():
     with col1:
         
         ## add a file upload for lab results
-        uploaded_file = st.file_uploader("Step 1: Upload Lab Results from IDEXX or Antech", type=['pdf'])
+        uploaded_file = st.file_uploader("Step 1: Upload IDEXX or Antech Lab Results", type=['pdf'])
         if uploaded_file is not None:
             st.write("File uploaded successfully!")
             ## save the file to a temp directory
@@ -28,7 +28,7 @@ def main():
             st.session_state['pdf_string'] = pdf_string 
             os.unlink(fp.name)
 
-        conversation = st.text_area("(Optional) Enter Patient Signalment and History. Modify to Update Differentials and Medical Plan.", height=100)  # Increase textarea height
+        conversation = st.text_area("(Optional) Enter Patient Signalment and History. Modify to Update Differentials.", height=100)  # Increase textarea height
 
         if st.button("Step 2: Click to Generate Potential Differentials"):
             gpt4_client = GPT4Client()
@@ -68,13 +68,13 @@ def main():
             ## get just the diagnoses from the JSON
             diagnoses_no_justification = [diag['diagnosis'] for diag in st.session_state['diagnoses']]
 
-            diagnosis_name = st.multiselect("Step 3: Select One or More Differential(s). Revise to Modify Medical Record.", diagnoses_no_justification)
+            diagnosis_name = st.multiselect("Step 3: Select One or More Differential(s). Revise to Modify Medical Chart.", diagnoses_no_justification)
             st.session_state['chosen_diagnoses'] = diagnosis_name
                 
             gpt4_client = st.session_state['gpt4_client']
             conversation = st.session_state['conversation']
 
-            if st.button("Step 4: Click to get Medical Summary with your Selected Differential(s)"):
+            if st.button("Step 4: Click to get Medical Chart with your Selected Differential(s)"):
                 st.markdown("**Potential Diagnoses:**\n\n")  # Use markdown for better formatting
                 for i, diagnosis in enumerate(diagnosis_name):
                     st.markdown(f"{i+1}. {diagnosis}")
